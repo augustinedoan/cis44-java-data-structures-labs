@@ -10,7 +10,7 @@ public class DecisionTree {
 
     private void buildTree() {
 
-        // Root node checks render distance
+        // Check render distance
         root = new Node("DISTANCE_CHECK", null);
 
         // Too far away
