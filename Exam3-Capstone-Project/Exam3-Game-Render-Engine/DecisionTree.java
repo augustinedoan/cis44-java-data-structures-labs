@@ -8,12 +8,21 @@ public class DecisionTree {
         buildTree();
     }
 
+    // Empty tree constructor test
+    public DecisionTree(boolean build) {
+
+        if (build) {
+            buildTree();
+        } else {
+            root = null;
+        }
+    }
+
     private void buildTree() {
 
-        // Check render distance
         root = new Node("DISTANCE_CHECK", null);
 
-        // Too far away
+        // Too far distance
         Node doNotRender = new Node(null, "DO_NOT_RENDER");
 
         // Within render distance
@@ -22,10 +31,10 @@ public class DecisionTree {
         root.setLeft(doNotRender);
         root.setRight(qualityCheck);
 
-        // LOW quality branch
+        // LOW render quality
         Node lowDetail = new Node(null, "LOW_DETAIL");
 
-        // HIGH quality branch goes to shader check
+        // HIGH render quality
         Node shaderCheck = new Node("SHADER_CHECK", null);
 
         qualityCheck.setLeft(lowDetail);
@@ -39,10 +48,27 @@ public class DecisionTree {
         shaderCheck.setRight(highDetail);
     }
 
+    // Phase 4
     public String evaluate(int distance,
                            int renderDistance,
                            String renderQuality,
                            String shaderQuality) {
+
+        // Empty tree check
+        if (root == null) {
+            return "EMPTY_TREE";
+        }
+
+        // Invalid input check
+        if (distance < 0
+                || renderDistance < 0
+                || renderQuality == null
+                || shaderQuality == null
+                || renderQuality.isBlank()
+                || shaderQuality.isBlank()) {
+
+            return "INVALID_INPUT";
+        }
 
         Node current = root;
 
@@ -50,17 +76,17 @@ public class DecisionTree {
         if (distance > renderDistance) {
             current = current.getLeft();
             return current.getResult();
-        } else {
-            current = current.getRight();
         }
+
+        current = current.getRight();
 
         // Render quality check
         if (renderQuality.equalsIgnoreCase("LOW")) {
             current = current.getLeft();
             return current.getResult();
-        } else {
-            current = current.getRight();
         }
+
+        current = current.getRight();
 
         // Shader quality check
         if (shaderQuality.equalsIgnoreCase("LOW")) {

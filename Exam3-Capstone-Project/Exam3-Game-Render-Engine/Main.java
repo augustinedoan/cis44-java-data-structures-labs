@@ -4,46 +4,64 @@ public class Main {
 
     public static void main(String[] args) {
 
-        DecisionTree tree = new DecisionTree();
+        DecisionTree normalTree = new DecisionTree();
 
-        // Ex. 1
-        String result1 = tree.evaluate(
-                150,
-                100,
-                "HIGH",
-                "HIGH"
+        // Empty tree test
+        DecisionTree emptyTree = new DecisionTree(false);
+
+        // Normal test
+        runTest(
+                "Normal Test",
+                "HIGH_DETAIL",
+                normalTree.evaluate(
+                        25,
+                        100,
+                        "HIGH",
+                        "HIGH"
+                )
         );
 
-        System.out.println("Example 1: " + result1);
-
-        // Ex. 2
-        String result2 = tree.evaluate(
-                50,
-                100,
-                "LOW",
-                "HIGH"
+        // Empty tree test
+        runTest(
+                "Empty Test",
+                "EMPTY_TREE",
+                emptyTree.evaluate(
+                        25,
+                        100,
+                        "HIGH",
+                        "HIGH"
+                )
         );
 
-        System.out.println("Example 2: " + result2);
-
-        // Ex. 3
-        String result3 = tree.evaluate(
-                40,
-                100,
-                "HIGH",
-                "LOW"
+        // Edge case test
+        runTest(
+                "Edge Case Test",
+                "INVALID_INPUT",
+                normalTree.evaluate(
+                        -5,
+                        100,
+                        "HIGH",
+                        "HIGH"
+                )
         );
+    }
 
-        System.out.println("Example 3: " + result3);
+    // PASS FAIL check
+    private static void runTest(String testName,
+                                String expected,
+                                String actual) {
 
-        // Ex. 4
-        String result4 = tree.evaluate(
-                25,
-                100,
-                "HIGH",
-                "HIGH"
-        );
+        if (expected.equals(actual)) {
 
-        System.out.println("Example 4: " + result4);
+            System.out.println(testName + ": PASS");
+
+        } else {
+
+            System.out.println(testName + ": FAIL");
+
+            System.out.println("Expected: " + expected);
+
+            System.out.println("Actual: " + actual);
+        }
     }
 }
